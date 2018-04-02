@@ -10,6 +10,7 @@ router.group('/api', (apiRouter) => {
         apiV1Router.get('/names', (req, res) => {
             res.json(names.all);
         });
+        apiV1Router.get('/names', 'SomeController.someMethod');
     });
 });
 
