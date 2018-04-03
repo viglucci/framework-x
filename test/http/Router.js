@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { Router, Route } = require('../app/Router');
+const { Router, Route } = require('../../http/Router');
 const express = require('express');
 const request = require('supertest');
 

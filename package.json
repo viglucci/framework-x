@@ -2,10 +2,9 @@
   "name": "framework-x",
   "version": "0.0.1",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "start": "node server.js"
+    "test": "mocha --recursive"
   },
   "author": "",
   "license": "ISC",
