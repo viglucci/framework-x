@@ -58,7 +58,4 @@ class Router {
     }
 }
 
-module.exports = {
-    Route,
-    Router
-};
+module.exports = Router;

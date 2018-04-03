@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { Router, Route } = require('../../http/Router');
+const Router = require('../../http/Router');
 const express = require('express');
 const request = require('supertest');
 
@@ -10,12 +10,6 @@ describe('Router', () => {
             const router = new Router();
             router.get('/users', () => {});
             expect(router._routes).to.have.all.keys('/users');
-        });
-
-        it('registers a new entry as a instance of Route', () => {
-            const router = new Router();
-            router.get('/users', () => { });
-            expect(router._routes['/users']).to.be.instanceof(Route);
         });
 
         it('registers a new entry as a instance of Route with method as GET', () => {
@@ -30,12 +24,6 @@ describe('Router', () => {
             const router = new Router();
             router.post('/api/user', () => { });
             expect(router._routes).to.have.all.keys('/api/user');
-        });
-
-        it('registers a new entry as a instance of Route', () => {
-            const router = new Router();
-            router.post('/api/user', () => { });
-            expect(router._routes['/api/user']).to.be.instanceof(Route);
         });
 
         it('registers a new entry as a instance of Route with method as POST', () => {
