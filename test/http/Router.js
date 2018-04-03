@@ -1,7 +1,8 @@
 const { expect } = require('chai');
-const Router = require('../../http/Router');
 const express = require('express');
 const request = require('supertest');
+const sinon = require('sinon');
+const Router = require('../../http/Router');
 
 describe('Router', () => {
 
@@ -87,8 +88,7 @@ describe('Router', () => {
             });
 
             // act
-            router.bind(expressRouter);
-            app.use(expressRouter);
+            app.use(router.bind(expressRouter));
 
             // assert
             request(app)
@@ -114,8 +114,7 @@ describe('Router', () => {
             });
 
             // act
-            router.bind(expressRouter);
-            app.use(expressRouter);
+            app.use(router.bind(expressRouter));
 
             // assert
             request(app)
@@ -143,14 +142,48 @@ describe('Router', () => {
             });
 
             // act
-            router.bind(expressRouter);
-            app.use(expressRouter);
+            app.use(router.bind(expressRouter));
 
             // assert
             request(app)
                 .get('/api/v1/users')
                 .set('Accept', 'application/json')
                 .expect(200, done);
+        });
+
+        it('registers middlewares to a given express router before any registered routes', () => {
+            // arrange
+            const router = new Router();
+            const app = express();
+            const expressRouter = express.Router();
+
+            const middleware = (req, res, next) => {
+                next();
+            };
+
+            const middlewareSpy = sinon.spy(middleware);
+
+            router.middleware(middlewareSpy);
+            router.get('/api/users', (req, res, next) => {
+                res.json([
+                    {
+                        id: 1,
+                        name: 'Jane Doe'
+                    }
+                ]);
+            });
+
+            // act
+            app.use(router.bind(expressRouter));
+
+            // assert
+            return request(app)
+                .get('/api/users')
+                .set('Accept', 'application/json')
+                .expect(200)
+                .then(() => {
+                    expect(middlewareSpy.called).to.be.true;
+                });
         });
     });
 });

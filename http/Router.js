@@ -40,6 +40,11 @@ class Router {
     _bindRoutes(expressRouter, router, prefix) {
         router = router || this;
         prefix = prefix || '';
+        if (router._middlewares) {
+            while(router._middlewares.length) {
+                expressRouter.use(router._middlewares.shift());
+            }
+        }
         if (router._routes) {
             Object.keys(router._routes).forEach((path) => {
                 const route = router._routes[path];
