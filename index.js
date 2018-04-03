@@ -1,3 +1,3 @@
 module.exports = {
-    Router: require('http/Router')
+    Router: require('./http/Router')
 };
