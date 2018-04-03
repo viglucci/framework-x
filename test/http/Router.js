@@ -191,5 +191,46 @@ describe('Router', () => {
                     expect(middlewareSpy.calledBefore(routeHandlerSpy)).to.be.true;
                 });
         });
+
+        it('registers middlewares to a given express router before any registered routes regardless of when middleware is called', () => {
+            // arrange
+            const router = new Router();
+            const app = express();
+            const expressRouter = express.Router();
+
+            const middleware = (req, res, next) => {
+                next();
+            };
+
+            const middlewareSpy = sinon.spy(middleware);
+
+            const routeHandler = (req, res, next) => {
+                res.json([
+                    {
+                        id: 1,
+                        name: 'Jane Doe'
+                    }
+                ]);
+            };
+
+            const routeHandlerSpy = sinon.spy(routeHandler);
+
+            router.get('/api/users', routeHandlerSpy);
+            router.middleware(middlewareSpy);
+
+            // act
+            app.use(router.bind(expressRouter));
+
+            // assert
+            return request(app)
+                .get('/api/users')
+                .set('Accept', 'application/json')
+                .expect(200)
+                .then(() => {
+                    expect(middlewareSpy.called).to.be.true;
+                    expect(routeHandlerSpy.called).to.be.true;
+                    expect(middlewareSpy.calledBefore(routeHandlerSpy)).to.be.true;
+                });
+        });
     });
 });
