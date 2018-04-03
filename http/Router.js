@@ -1,13 +1,6 @@
 // TODO: Support middlewares
 
-class Route {
-    
-    constructor(path, method, closure) {
-        this.path = path;
-        this.method = method;
-        this.closure = closure;
-    }
-}
+const Route = require('./Route');
 
 class Router {
 
