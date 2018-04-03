@@ -163,15 +163,19 @@ describe('Router', () => {
 
             const middlewareSpy = sinon.spy(middleware);
 
-            router.middleware(middlewareSpy);
-            router.get('/api/users', (req, res, next) => {
+            const routeHandler = (req, res, next) => {
                 res.json([
                     {
                         id: 1,
                         name: 'Jane Doe'
                     }
                 ]);
-            });
+            };
+
+            const routeHandlerSpy = sinon.spy(routeHandler);
+
+            router.middleware(middlewareSpy);
+            router.get('/api/users', routeHandlerSpy);
 
             // act
             app.use(router.bind(expressRouter));
@@ -183,6 +187,8 @@ describe('Router', () => {
                 .expect(200)
                 .then(() => {
                     expect(middlewareSpy.called).to.be.true;
+                    expect(routeHandlerSpy.called).to.be.true;
+                    expect(middlewareSpy.calledBefore(routeHandlerSpy)).to.be.true;
                 });
         });
     });
