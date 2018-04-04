@@ -1,3 +1,4 @@
 module.exports = {
-    Router: require('./Router')
+    Router: require('./Router'),
+    ExpressRouterFactory: require('./ExpressRouterFactory')
 };
