@@ -2,8 +2,8 @@ const { expect } = require('chai');
 const express = require('express');
 const request = require('supertest');
 const sinon = require('sinon');
-const ExpressRouterFactory = require('../../http/ExpressRouterFactory');
-const Router = require('../../http/Router');
+const ExpressRouterFactory = require('../../lib/http/ExpressRouterFactory');
+const Router = require('../../lib/http/Router');
 
 describe('ExpressRouterFactory', () => {
 
