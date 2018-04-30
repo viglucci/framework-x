@@ -1,3 +1,4 @@
 module.exports = {
-    http: require('./lib/http')
+  http: require('./lib/http'),
+  ApplicationContextBuilder: require('./lib/ApplicationContextBuilder')
 };
