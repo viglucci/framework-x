@@ -4,8 +4,14 @@ const request = require('supertest');
 const sinon = require('sinon');
 const ExpressRouterFactory = require('../../lib/http/ExpressRouterFactory');
 const Router = require('../../lib/http/Router');
+const ClosureResolver = require('../../lib/ClosureResolver');
 
 describe('ExpressRouterFactory', () => {
+
+    before(() => {
+      ExpressRouterFactory.registerMiddlewareResolver('function', new ClosureResolver());
+      ExpressRouterFactory.registerRouterHandlerResolver('function', new ClosureResolver());
+    });
 
     describe('create', () => {
         it('creates a Express Router with registered top level routes', (done) => {
